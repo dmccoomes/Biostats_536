@@ -1,0 +1,15 @@
+---
+title: "Homework 3"
+author: "David Coomes"
+date: "Due 10/31/2019"
+output: html_document
+---
+
+```{r_install_packages, echo=FALSE,warning=FALSE,message=FALSE}
+
+library(knitr)
+library(UWbe536)
+library(devtools)
+
+```
+
