@@ -26,7 +26,7 @@ str(esoph)
 ```
 
 
-```{r shape_data, echo=FALSE,warning=FALSE,message=FALSE}
+```{r shape_data, echo=FALSE,warning=FALSE,message=FALSE, include=FALSE}
 
 esoph$bin_alc <- as.numeric(esoph$alc) > 2
 esoph$bin_alc <- factor(esoph$bin_alc, labels = c("0-79","80+"))
