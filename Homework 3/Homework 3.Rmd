@@ -10,8 +10,9 @@ output:
 ```{r install_packages, echo=FALSE,warning=FALSE,message=FALSE}
 
 library(knitr)
+install.packages("devtools")
 library(devtools)
-#install_github("bmckuw/UWbe536") 
+install_github("bmckuw/UWbe536") 
 library(UWbe536) 
 library(kableExtra)
 

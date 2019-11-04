@@ -1,0 +1,16 @@
+---
+title: "Homework 4"
+author: "David Coomes"
+date: "11/3/2019"
+output: html_document
+---
+
+```{r install_packages, echo=FALSE,warning=FALSE,message=FALSE}
+
+library(knitr)
+install.packages("devtools")
+library(devtools)
+install_github("bmckuw/UWbe536") 
+library(UWbe536) 
+
+```
