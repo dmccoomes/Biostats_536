@@ -195,23 +195,22 @@ $(document).ready(function () {
 <p><br></p>
 <div id="question-1" class="section level3">
 <h3><strong>Question #1</strong></h3>
-</div>
-<div id="a-logitp-alpha0-alpha1xtob-betaxalc" class="section level3">
-<h3>(a) logit(p) = alpha(0) + alpha(1)<em>X(tob) + beta</em>X(alc)</h3>
-<pre><code>X(tob) =  0 if tobacco use is 0-19 grams/day,
+<div id="a-logitp-alpha_0-alpha_1x_tob-beta-x_alc" class="section level4">
+<h4>(a) logit(p) = <span class="math inline">\(\alpha_0\)</span> + <span class="math inline">\(\alpha_1X_{TOB}\)</span> + <span class="math inline">\(\beta X_{ALC}\)</span></h4>
+<pre><code>X(TOB) =  0 if tobacco use is 0-19 grams/day,  
           1 if tobacco use is 80+ grams/day
           
-X(alc) =  0 if alcohol use is 0-79 grams/day
+X(ALC) =  0 if alcohol use is 0-79 grams/day
           1 if alcohol use is 80+ grams/day
           
-p = probability of esophageal cancer</code></pre>
+p = probability of esophageal cancer given alcohol and tobacco use</code></pre>
 </div>
-<div id="b-or-ebeta" class="section level3">
-<h3>(b) OR = e^(beta)</h3>
+<div id="b-or-ebeta" class="section level4">
+<h4>(b) OR = e^(beta)</h4>
 </div>
-<div id="c" class="section level3">
-<h3>(c)</h3>
-<p>Odds ratio of esophageal cancer associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day and adjusted for tobacco consumption</p>
+<div id="c" class="section level4">
+<h4>(c)</h4>
+<p><strong>Table 1:</strong> Odds ratio of esophageal cancer associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day and adjusted for tobacco consumption</p>
 <table class="table" style="width: auto !important; ">
 <thead>
 <tr>
@@ -246,16 +245,190 @@ bin_alc80+
 </tbody>
 </table>
 </div>
-<div id="d" class="section level3">
-<h3>(d)</h3>
+<div id="d" class="section level4">
+<h4>(d)</h4>
 <p>The OR of being diagnosed with esophageal cancer associated with high alchohol consumption (80 g/day or more) compared to not high alcohol consumption (&lt;80 g/day) and adjusted for tobacco consumption is 5.61 (95% CI: 3.97-7.93).</p>
 <p><br></p>
 </div>
+</div>
 <div id="question-2" class="section level3">
 <h3><strong>Question #2</strong></h3>
+<div id="a-logitp-alpha0-alpha1xtob-betaxalc-gammaxtobxalc" class="section level4">
+<h4>(a) logit(p) = alpha(0) + alpha(1)X(tob) + betaX(alc) + gammaX(tob)X(alc)</h4>
+<pre><code>X(tob) =  0 if tobacco use is 0-19 grams/day
+          1 if tobacco use is 80+ grams/day
+          
+X(alc) =  0 if alcohol use is 0-79 grams/day
+          1 if alcohol use is 80+ grams/day
+          
+p = probability of esophageal cancer among men given alchohol and tobacco use</code></pre>
 </div>
-<div id="a" class="section level3">
-<h3>(a)</h3>
+<div id="b-or-ebeta-1" class="section level4">
+<h4>(b) OR = e^(beta)</h4>
+</div>
+<div id="c-1" class="section level4">
+<h4>(c)</h4>
+<p><strong>Table 2:</strong> Odds ratio of esophageal cancer among men who consume less than 20 g/day of tobacco associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day</p>
+<table class="table" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+OR
+</th>
+<th style="text-align:right;">
+2.5 %
+</th>
+<th style="text-align:right;">
+97.5 %
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+bin_alc80+
+</td>
+<td style="text-align:right;">
+5.91
+</td>
+<td style="text-align:right;">
+3.94
+</td>
+<td style="text-align:right;">
+8.87
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="d-1" class="section level4">
+<h4>(d)</h4>
+<p>The OR of being diagnosed with esophageal cancer among men who consume less than 20 g/day of tobacco for those who consume more than 80 g/day of alcohol compared to those who consume less than 80 g/day of alchohol is 5.91 (95% CI: 3.94-8.87).</p>
+<p><br></p>
+</div>
+</div>
+<div id="question-3" class="section level3">
+<h3><strong>Question #3</strong></h3>
+<div id="a-logitp-alpha0-alpha1x1-alpha2x2-alpha3x3" class="section level4">
+<h4>(a) logit(p) = alpha(0) + alpha(1)X(1) + alpha(2)X(2) + alpha(3)X(3)</h4>
+<pre><code>X(1) =  0 otherwise
+        1 if tobacco use is 20+ g/day &amp; alcohol use is less than 80 g/day
+          
+X(2) =  0 otherwise
+        1 if tobacco use is less than 20 g/day &amp; alcohol use is 80+ g/day
+          
+X(3) =  0 otherwise
+        1 if tobacco use is 20+ g/day &amp; alcohol use is 80+ g/day
+          
+p = probability of esophageal cancer among men given alchohol and tobacco use</code></pre>
+</div>
+<div id="b-or-ealpha3" class="section level4">
+<h4>(b) OR = e^(alpha(3))</h4>
+</div>
+<div id="c-2" class="section level4">
+<h4>(c)</h4>
+<p><strong>Table 3:</strong> Odds ratio of esophageal cancer comparing men who consume more than 20 g/day of tobacco and 80 g/day of alcohol compared with those that consume less than 20 g/day of tobacco and 80 g/day of alcohol</p>
+<table class="table" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+OR
+</th>
+<th style="text-align:right;">
+2.5 %
+</th>
+<th style="text-align:right;">
+97.5 %
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+bin_alctob_3
+</td>
+<td style="text-align:right;">
+10.04
+</td>
+<td style="text-align:right;">
+5.53
+</td>
+<td style="text-align:right;">
+18.26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="d-2" class="section level4">
+<h4>(d)</h4>
+<p>The OR of being diagnosed with esophageal cancer for men who consume 20 or more g/day of tobacco and 80 or more g/day of alcohol compared to men who consume less than 20 g/day and less than 80 g/day of alcohol and tobacco is 10.04 (95% CI: 5.53-18.26).</p>
+</div>
+</div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<pre class="r"><code>library(knitr)
+library(devtools)
+#install_github(&quot;bmckuw/UWbe536&quot;) 
+library(UWbe536) 
+library(kableExtra)
+
+
+link = &quot;https://github.com/dmccoomes/Biostats_536/raw/master/Homework%203/esoph%20(2).rds&quot;
+esoph &lt;- readRDS(url(link))
+head(esoph)
+summary(esoph)
+str(esoph)
+
+
+esoph$bin_alc &lt;- as.numeric(esoph$alc) &gt; 2
+esoph$bin_alc &lt;- factor(esoph$bin_alc, labels = c(&quot;0-79&quot;,&quot;80+&quot;))
+
+esoph$bin_tob &lt;- as.numeric(esoph$tob) &gt; 2
+esoph$bin_tob &lt;- factor(esoph$bin_tob, labels = c(&quot;0-19&quot;, &quot;20+&quot;))
+
+with(esoph, table(alc, bin_alc))
+with(esoph, table(tob, bin_tob))
+
+
+bin_alc.mod_1 &lt;- glm(case ~ bin_alc + bin_tob, data=esoph, family=binomial)
+OR &lt;- exp(coef(bin_alc.mod_1)[2])
+ci &lt;- exp(confint.default(bin_alc.mod_1))[2,]
+
+kable(round(cbind(OR, t(ci)),2)) %&gt;%
+  kable_styling(full_width=F, position=&quot;left&quot;)
+      
+
+
+bin_alc.mod_2 &lt;- glm(case ~ bin_alc*bin_tob, data=esoph, family=binomial)
+OR &lt;- exp(coef(bin_alc.mod_2)[2])
+ci &lt;- exp(confint.default(bin_alc.mod_2))[2,]
+
+kable(round(cbind(OR, t(ci)),2)) %&gt;%
+  kable_styling(full_width=F, position=&quot;left&quot;)
+      
+
+
+esoph$bin_alctob_1[esoph$bin_tob==&quot;20+&quot; &amp; esoph$bin_alc==&quot;0-79&quot;] &lt;- 1
+esoph$bin_alctob_1[esoph$bin_tob==&quot;0-19&quot; | esoph$bin_alc==&quot;80+&quot;] &lt;- 0
+
+esoph$bin_alctob_2[esoph$bin_tob==&quot;0-19&quot; &amp; esoph$bin_alc==&quot;80+&quot;] &lt;- 1
+esoph$bin_alctob_2[esoph$bin_tob==&quot;20+&quot; | esoph$bin_alc==&quot;0-79&quot;] &lt;- 0
+
+esoph$bin_alctob_3[esoph$bin_tob==&quot;20+&quot; &amp; esoph$bin_alc==&quot;80+&quot;] &lt;- 1
+esoph$bin_alctob_3[esoph$bin_tob==&quot;0-19&quot; | esoph$bin_alc==&quot;0-79&quot;] &lt;- 0
+
+
+bin_alc.mod_3 &lt;- glm(case ~ bin_alctob_3 + bin_alctob_2 + bin_alctob_1, data=esoph, family=binomial)
+OR &lt;- exp(coef(bin_alc.mod_3)[2]) 
+ci &lt;- exp(confint.default(bin_alc.mod_3))[2,]
+
+kable(round(cbind(OR, t(ci)),2)) %&gt;%
+  kable_styling(full_width=F, position=&quot;left&quot;)</code></pre>
 </div>
 
 
