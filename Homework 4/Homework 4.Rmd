@@ -1,15 +1,12 @@
 ---
 title: "Homework 4"
 author: "David Coomes"
-date: "11/3/2019"
-output: html_document
 date: "11/4/2019"
 output:
   pdf_document: default
   html_document: default
 ---
 
-```{r install_packages, echo=FALSE,warning=FALSE,message=FALSE}
 ```{r install_packages, include=FALSE,warning=FALSE,message=FALSE}
 
 library(knitr)
@@ -19,7 +16,6 @@ devtools::install_github("hadley/devtools")
 =======
 >>>>>>> 26f9aa50f86df31540c78cd96a084393a1437075
 library(devtools)
-install_github("bmckuw/UWbe536") 
 library(UWbe536) 
 library(kableExtra)
 library(formatR)
