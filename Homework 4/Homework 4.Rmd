@@ -8,9 +8,23 @@ output: html_document
 ```{r install_packages, echo=FALSE,warning=FALSE,message=FALSE}
 
 library(knitr)
-install.packages("devtools")
+#install.packages("devtools", dependencies = TRUE, repos='https://stat.ethz.ch/CRAN/')
+devtools::install_github("hadley/devtools")
 library(devtools)
 install_github("bmckuw/UWbe536") 
 library(UWbe536) 
 
 ```
+
+
+```{r }
+
+link = "https://github.com/dmccoomes/Biostats_536/raw/master/Homework%204/esophcts.rds"
+esoph <- readRDS(url(link))
+head(esoph)
+summary(esoph)
+str(esoph)
+
+
+```
+
