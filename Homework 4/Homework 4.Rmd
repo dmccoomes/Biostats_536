@@ -10,11 +10,8 @@ output:
 ```{r install_packages, include=FALSE,warning=FALSE,message=FALSE}
 
 library(knitr)
-<<<<<<< HEAD
-#install.packages("devtools", dependencies = TRUE, repos='https://stat.ethz.ch/CRAN/')
-devtools::install_github("hadley/devtools")
-=======
->>>>>>> 26f9aa50f86df31540c78cd96a084393a1437075
+install.packages("devtools", dependencies = TRUE, repos='https://stat.ethz.ch/CRAN/')
+#devtools::install_github("hadley/devtools")
 library(devtools)
 library(UWbe536) 
 library(kableExtra)
@@ -23,11 +20,7 @@ library(formatR)
 ```
 
 
-<<<<<<< HEAD
-```{r }
-=======
 ```{r read_data, include=FALSE,warning=FALSE,message=FALSE}
->>>>>>> 26f9aa50f86df31540c78cd96a084393a1437075
 
 link = "https://github.com/dmccoomes/Biostats_536/raw/master/Homework%204/esophcts.rds"
 esoph <- readRDS(url(link))
@@ -35,11 +28,6 @@ head(esoph)
 summary(esoph)
 str(esoph)
 
-<<<<<<< HEAD
-
-```
-
-=======
 ```
 
 
@@ -194,4 +182,3 @@ Using case-control data, we fit a logistic regression model using diagnosis with
 ```
 
  
->>>>>>> 26f9aa50f86df31540c78cd96a084393a1437075
