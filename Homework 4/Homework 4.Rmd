@@ -10,9 +10,9 @@ output:
 ```{r install_packages, include=FALSE,warning=FALSE,message=FALSE}
 
 library(knitr)
-install.packages("devtools", dependencies = TRUE, repos='https://stat.ethz.ch/CRAN/')
-#devtools::install_github("hadley/devtools")
+#install.packages("devtools", dependencies = TRUE, repos = "http://cran.us.r-project.org")
 library(devtools)
+install_github("bmckuw/UWbe536") 
 library(UWbe536) 
 library(kableExtra)
 library(formatR)
