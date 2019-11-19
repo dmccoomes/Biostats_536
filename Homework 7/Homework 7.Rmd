@@ -144,7 +144,7 @@ kable(table_2,
 
 ####(ii)
 
-The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables.
+The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables. These models have a slightly different result because of the variable that is the baseline for the estimates.
 
 
 <br>
