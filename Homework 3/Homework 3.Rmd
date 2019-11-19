@@ -2,7 +2,6 @@
 title: "Homework 3"
 author: "David Coomes"
 date: "Due 10/31/2019"
-output: html_document
 output:
   pdf_document: default
   html_document: default
@@ -17,7 +16,6 @@ library(knitr)
 install.packages("devtools")
 >>>>>>> 4e4b194bbf61d438d08cbe996ecf8d3d97ee878f
 library(devtools)
-#install_github("bmckuw/UWbe536") 
 install_github("bmckuw/UWbe536") 
 library(UWbe536) 
 library(kableExtra)
@@ -55,38 +53,27 @@ with(esoph, table(tob, bin_tob))
 
 <br>
 
-### **Question #1** 
-### (a) logit(p) = alpha(0) + alpha(1)*X(tob) + beta*X(alc)
 ## **Question #1** 
 #### (a) logit(p) = $\alpha_0$ + $\alpha_1X_{TOB}$ + $\beta X_{ALC}$
 
-    X(tob) =  0 if tobacco use is 0-19 grams/day,
     X(TOB) =  0 if tobacco use is 0-19 grams/day,  
               1 if tobacco use is 80+ grams/day
               
-    X(alc) =  0 if alcohol use is 0-79 grams/day
     X(ALC) =  0 if alcohol use is 0-79 grams/day
               1 if alcohol use is 80+ grams/day
               
-    p = probability of esophageal cancer
     p = probability of esophageal cancer given alcohol and tobacco use
     
     
-### (b) OR = e^(beta)
 #### (b) OR = e^(beta)
 
 
-### (c) 
 #### (c) 
 
-Odds ratio of esophageal cancer associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day and adjusted for tobacco consumption
 **Table 1:** Odds ratio of esophageal cancer associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day and adjusted for tobacco consumption
 
 ```{r logit_model_1, warning=FALSE,message=FALSE, echo=FALSE}
 
-bin_alc.mod <- glm(case ~ bin_alc + bin_tob, data=esoph, family=binomial)
-OR <- exp(coef(bin_alc.mod)[2])
-ci <- exp(confint.default(bin_alc.mod))[2,]
 bin_alc.mod_1 <- glm(case ~ bin_alc + bin_tob, data=esoph, family=binomial)
 OR <- exp(coef(bin_alc.mod_1)[2])
 ci <- exp(confint.default(bin_alc.mod_1))[2,]
@@ -97,7 +84,6 @@ kable(round(cbind(OR, t(ci)),2)) %>%
 
 ```
 
-### (d) 
 #### (d) 
 
 The OR of being diagnosed with esophageal cancer associated with high alchohol consumption (80 g/day or more) compared to not high alcohol consumption (<80 g/day) and adjusted for tobacco consumption is 5.61 (95% CI: 3.97-7.93).
@@ -107,8 +93,6 @@ The OR of being diagnosed with esophageal cancer associated with high alchohol c
 <br>
 
 
-### **Question #2**
-### (a) logit(p) = alpha(0) + alpha(1)*X(tob) + beta*X(alc)
 ## **Question #2**
 #### (a) logit(p) = alpha(0) + alpha(1)X(tob) + betaX(alc) + gammaX(tob)X(alc)
 
@@ -118,25 +102,18 @@ The OR of being diagnosed with esophageal cancer associated with high alchohol c
     X(alc) =  0 if alcohol use is 0-79 grams/day
               1 if alcohol use is 80+ grams/day
               
-    p = probability of esophageal cancer among men
     p = probability of esophageal cancer among men given alchohol and tobacco use
     
     
-### (b) OR = e^(beta)
 #### (b) OR = e^(beta)
 
 
-### (c) 
 #### (c) 
 
-Odds ratio of esophageal cancer among men associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day and adjusted for tobacco consumption
 **Table 2:** Odds ratio of esophageal cancer among men who consume less than 20 g/day of tobacco associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day
 
 ```{r logit_model_2, warning=FALSE,message=FALSE, echo=FALSE}
 
-bin_alc.mod <- glm(case ~ bin_alc + bin_tob, data=esoph, family=binomial)
-OR <- exp(coef(bin_alc.mod)[2])
-ci <- exp(confint.default(bin_alc.mod))[2,]
 bin_alc.mod_2 <- glm(case ~ bin_alc*bin_tob, data=esoph, family=binomial)
 OR <- exp(coef(bin_alc.mod_2)[2])
 ci <- exp(confint.default(bin_alc.mod_2))[2,]
