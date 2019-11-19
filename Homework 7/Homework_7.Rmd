@@ -3,11 +3,8 @@ title: "Homework 7"
 author: "David Coomes"
 date: "11/17/2019"
 output:
-  pdf_document: default
-<<<<<<< HEAD
-=======
   word_document: default
->>>>>>> 9c298d15d96084cd77995c2253ce5a04fc81de46
+  pdf_document: default
   html_document: default
 ---
 
@@ -144,7 +141,7 @@ kable(table_2,
 
 ####(ii)
 
-The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables.
+The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables. These models have a slightly different result because of the variable that is the baseline for the estimates.
 
 
 <br>

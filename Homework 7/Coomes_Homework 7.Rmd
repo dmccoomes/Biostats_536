@@ -4,10 +4,7 @@ author: "David Coomes"
 date: "11/17/2019"
 output:
   pdf_document: default
-<<<<<<< HEAD
-=======
   word_document: default
->>>>>>> 9c298d15d96084cd77995c2253ce5a04fc81de46
   html_document: default
 ---
 
@@ -144,7 +141,7 @@ kable(table_2,
 
 ####(ii)
 
-The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables.
+The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables. These models have a slightly different result because of the variable that is the baseline for the estimates.
 
 
 <br>
@@ -238,5 +235,14 @@ These two quadratic effect modification models are very similar - they are only 
 
 <br>
 
-(c) I don't think that the authors can interpret as strong of a conclusion from this study as they did. For starters, there are a lot of confounding variables that are likely not accounted for in this study. It is very difficult to say that the cases and controls are equal except for the fact that the controls stopped drinking - there are too many differnet aspects that go along with drinking habits. Second, I wonder about the impact of mortality, especially for heavy drinkers, and what this may have done for the results of this study. What other diseases are associated with drinking and how would this impact the chances of someone dying before they get esophageal cancer. Finally, I wonder about the fact that such a large proportion of the study subjects were current drinkers and how this impacts the interpretation of the results. 
+(c) I don't think that the authors can interpret as strong of a conclusion from this study as they did. For starters, there are a lot of confounding variables that are likely not accounted for in this study. It is very difficult to say that the cases and controls are equal except for the fact that the controls stopped drinking - there are too many differnet aspects that go along with drinking habits. Second, I wonder about the impact of mortality, especially for heavy drinkers, and what this may have done for the results of this study. What other diseases are associated with drinking and how would this impact the chances of someone dying before they get esophageal cancer. Finally, I wonder about the fact that such a large proportion of the study subjects were current drinkers and how this impacts the interpretation of the results.
+
+<br>
+
+###Appendix
+
+```{r appendix, ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE, tidy=TRUE, tidy.opts=list(width.cutoff=60)}
+
+```
+
 
