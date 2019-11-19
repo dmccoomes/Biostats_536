@@ -8,6 +8,7 @@ output: html_document
 ```{r install_packages, echo=FALSE,warning=FALSE,message=FALSE}
 
 library(knitr)
+#install.packages("devtools")
 library(devtools)
 #install_github("bmckuw/UWbe536") 
 library(UWbe536) 
@@ -27,11 +28,7 @@ str(esoph)
 ```
 
 
-<<<<<<< HEAD
 ```{r shape_data, warning=FALSE,message=FALSE, include=FALSE}
-=======
-```{r shape_data, echo=FALSE,warning=FALSE,message=FALSE, include=FALSE}
->>>>>>> a01488fd339c7b4b4912b2fd197f7881fb82db19
 
 esoph$bin_alc <- as.numeric(esoph$alc) > 2
 esoph$bin_alc <- factor(esoph$bin_alc, labels = c("0-79","80+"))
@@ -65,7 +62,7 @@ with(esoph, table(tob, bin_tob))
 
 Odds ratio of esophageal cancer associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day and adjusted for tobacco consumption
 
-```{r logit_model, warning=FALSE,message=FALSE, echo=FALSE}
+```{r logit_model_1, warning=FALSE,message=FALSE, echo=FALSE}
 
 bin_alc.mod <- glm(case ~ bin_alc + bin_tob, data=esoph, family=binomial)
 OR <- exp(coef(bin_alc.mod)[2])
@@ -104,7 +101,7 @@ The OR of being diagnosed with esophageal cancer associated with high alchohol c
 
 Odds ratio of esophageal cancer among men associated with more than 80 g/day alcohol consumption as compared with less than 80 g/day and adjusted for tobacco consumption
 
-```{r logit_model, warning=FALSE,message=FALSE, echo=FALSE}
+```{r logit_model_2, warning=FALSE,message=FALSE, echo=FALSE}
 
 bin_alc.mod <- glm(case ~ bin_alc + bin_tob, data=esoph, family=binomial)
 OR <- exp(coef(bin_alc.mod)[2])
