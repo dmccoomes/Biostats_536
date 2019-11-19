@@ -3,8 +3,8 @@ title: "Homework 7"
 author: "David Coomes"
 date: "11/17/2019"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
