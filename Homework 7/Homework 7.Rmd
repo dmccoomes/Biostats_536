@@ -1,0 +1,203 @@
+---
+title: "Homework 7"
+author: "David Coomes"
+date: "11/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+
+```{r install_packages, include=FALSE}
+
+library(knitr)
+#install.packages("devtools", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+library(devtools)
+#install_github("bmckuw/UWbe536") 
+library(UWbe536) 
+library(kableExtra)
+library(formatR)
+
+```
+
+
+```{r load_data, include=FALSE}
+
+link = "https://github.com/dmccoomes/Biostats_536/raw/master/Homework%207/oxford.rds"
+ox <- readRDS(url(link))
+head(ox)
+summary(ox)
+str(ox)
+
+oxford <- ox[rep(1:nrow(ox), ox[,"freq"]), -4]
+head(oxford)
+
+with(oxford, table(case, xray))
+
+```
+
+```{r create_vars, include=FALSE}
+
+library(dplyr)
+oxford <- oxford %>%
+  mutate(xraynum = as.numeric(xray) - 1,
+         yob2 = yob*yob)
+
+```
+
+
+
+```{r reg_mod_1, include=FALSE}
+
+linintmod <- glm(case ~ yobf + xray + xraynum:yob,
+                 data = oxford, family = binomial)
+coef(summary(linintmod))
+
+```
+
+
+
+```{r reg_mod_1_results, include=FALSE}
+
+est_1944 <- lincom(linintmod, c("xrayxray + (-10)*xraynum:yob==0"))
+est_1948 <- lincom(linintmod, c("xrayxray + (-6)*xraynum:yob ==0"))
+est_1952 <- lincom(linintmod, c("xrayxray + (-2)*xraynum:yob ==0"))
+est_1956 <- lincom(linintmod, c("xrayxray + 2*xraynum:yob ==0"))
+est_1960 <- lincom(linintmod, c("xrayxray + 6*xraynum:yob ==0"))
+est_1964 <- lincom(linintmod, c("xrayxray + 10*xraynum:yob ==0"))
+
+
+```
+
+<br>
+
+#### Question 1 
+####(a)
+
+**Table 1:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth (using -10 for 1944).
+```{r reg_mod_1_output, echo=FALSE}
+
+table_1 <- round(rbind(est_1944, est_1948, est_1952, est_1956, est_1960, est_1964),2)
+row.names(table_1) <- c("YOB:1944", "YOB:1948", "YOB:1952", "YOB:1956", "YOB:1960", "YOB:1964")
+
+
+kable(table_1,
+           col.names = c("Estimate", "95% CI Upper", "95% CI Lower", "P-value")) %>%
+           kable_styling(full_width=F, position="center")
+
+```
+
+<br>
+
+#### (b)
+#### (i)
+
+```{r new_vars, include=FALSE}
+
+oxford$yob_2 <- oxford$yob-10
+summary(oxford$yob_2)
+
+```
+
+
+```{r reg_mod_2, include=FALSE}
+
+linintmod_2 <- glm(case ~ yobf + xray + xraynum:yob_2,
+                 data = oxford, family = binomial)
+coef(summary(linintmod_2))
+
+```
+
+
+```{r reg_mod_2_results, include=FALSE}
+
+est2_1944 <- lincom(linintmod_2, c("xrayxray + (-20)*xraynum:yob_2==0"))
+est2_1948 <- lincom(linintmod_2, c("xrayxray + (-16)*xraynum:yob_2 ==0"))
+est2_1952 <- lincom(linintmod_2, c("xrayxray + (-12)*xraynum:yob_2 ==0"))
+est2_1956 <- lincom(linintmod_2, c("xrayxray + (-8)*xraynum:yob_2 ==0"))
+est2_1960 <- lincom(linintmod_2, c("xrayxray + (-4)*xraynum:yob_2 ==0"))
+est2_1964 <- lincom(linintmod_2, c("xrayxray + xraynum:yob_2 ==0"))
+
+```
+
+**Table 2:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth (using -20 for 1944).
+
+```{r reg_mod_2_output, echo=FALSE}
+
+table_2 <- round(rbind(est2_1944, est2_1948, est2_1952, est2_1956, est2_1960, est2_1964),2)
+row.names(table_2) <- c("YOB:1944", "YOB:1948", "YOB:1952", "YOB:1956", "YOB:1960", "YOB:1964")
+
+
+kable(table_2,
+           col.names = c("Estimate", "95% CI Upper", "95% CI Lower", "P-value")) %>%
+           kable_styling(full_width=F, position="center")
+
+```
+
+####(ii)
+
+The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables.
+
+
+<br>
+
+####(c)
+
+```{r quad_mod, include=FALSE}
+
+quadintmod <- glm(case ~ yobf + xray + xraynum:yob + xraynum:yob2,
+                  data=oxford, family=binomial)
+
+```
+
+
+```{r, include=FALSE}
+
+est_1944 <- lincom(quadintmod, c("xrayxray + (-10)*xraynum:yob + 100*xraynum:yob2==0"))
+est_1948 <- lincom(quadintmod, c("xrayxray + (-6)*xraynum:yob + 36*xraynum:yob2==0"))
+est_1952 <- lincom(quadintmod, c("xrayxray + (-2)*xraynum:yob + 4*xraynum:yob2==0"))
+est_1956 <- lincom(quadintmod, c("xrayxray + (2)*xraynum:yob + 4*xraynum:yob2 ==0"))
+est_1960 <- lincom(quadintmod, c("xrayxray + (6)*xraynum:yob + 36*xraynum:yob2 ==0"))
+est_1964 <- lincom(quadintmod, c("xrayxray + (10)*xraynum:yob + 100*xraynum:yob2 ==0"))
+
+```
+
+**Table 3:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth using a quadratic effect modification model.
+
+```{r reg_mod_3_output, echo=FALSE}
+
+table_2 <- round(rbind(est_1944, est_1948, est_1952, est_1956, est_1960, est_1964),2)
+row.names(table_2) <- c("YOB:1944", "YOB:1948", "YOB:1952", "YOB:1956", "YOB:1960", "YOB:1964")
+
+
+kable(table_2,
+           col.names = c("Estimate", "95% CI Upper", "95% CI Lower", "P-value")) %>%
+           kable_styling(full_width=F, position="center")
+
+```
+
+<br> 
+
+####(d)
+
+```{r quad_mod_2, include=FALSE}
+
+quadintmod_2 <- glm(case ~ yobf + xray + xraynum:yob_2 + xraynum:yob2,
+                  data=oxford, family=binomial)
+
+```
+
+
+```{r, include=FALSE}
+
+est_1944 <- lincom(quadintmod_2, c("xrayxray + (-20)*xraynum:yob + 100*xraynum:yob2==0"))
+est_1948 <- lincom(quadintmod_2, c("xrayxray + (-16)*xraynum:yob + 36*xraynum:yob2==0"))
+est_1952 <- lincom(quadintmod_2, c("xrayxray + (-12)*xraynum:yob + 4*xraynum:yob2==0"))
+est_1956 <- lincom(quadintmod_2, c("xrayxray + (-8)*xraynum:yob + 4*xraynum:yob2 ==0"))
+est_1960 <- lincom(quadintmod_2, c("xrayxray + (-4)*xraynum:yob + 36*xraynum:yob2 ==0"))
+est_1964 <- lincom(quadintmod_2, c("xrayxray + xraynum:yob + 100*xraynum:yob2 ==0"))
+
+```
+
