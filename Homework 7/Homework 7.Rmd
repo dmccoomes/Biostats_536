@@ -122,7 +122,7 @@ est2_1964 <- lincom(linintmod_2, c("xrayxray + xraynum:yob_2 ==0"))
 
 ```
 
-**Table 2:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth (using -20 as 1944).
+**Table 2:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth (using -20 for 1944).
 
 ```{r reg_mod_2_output, echo=FALSE}
 
@@ -136,7 +136,68 @@ kable(table_2,
 
 ```
 
+####(ii)
+
+The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables.
 
 
+<br>
 
+####(c)
+
+```{r quad_mod, include=FALSE}
+
+quadintmod <- glm(case ~ yobf + xray + xraynum:yob + xraynum:yob2,
+                  data=oxford, family=binomial)
+
+```
+
+
+```{r, include=FALSE}
+
+est_1944 <- lincom(quadintmod, c("xrayxray + (-10)*xraynum:yob + 100*xraynum:yob2==0"))
+est_1948 <- lincom(quadintmod, c("xrayxray + (-6)*xraynum:yob + 36*xraynum:yob2==0"))
+est_1952 <- lincom(quadintmod, c("xrayxray + (-2)*xraynum:yob + 4*xraynum:yob2==0"))
+est_1956 <- lincom(quadintmod, c("xrayxray + (2)*xraynum:yob + 4*xraynum:yob2 ==0"))
+est_1960 <- lincom(quadintmod, c("xrayxray + (6)*xraynum:yob + 36*xraynum:yob2 ==0"))
+est_1964 <- lincom(quadintmod, c("xrayxray + (10)*xraynum:yob + 100*xraynum:yob2 ==0"))
+
+```
+
+**Table 3:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth using a quadratic effect modification model.
+
+```{r reg_mod_3_output, echo=FALSE}
+
+table_2 <- round(rbind(est_1944, est_1948, est_1952, est_1956, est_1960, est_1964),2)
+row.names(table_2) <- c("YOB:1944", "YOB:1948", "YOB:1952", "YOB:1956", "YOB:1960", "YOB:1964")
+
+
+kable(table_2,
+           col.names = c("Estimate", "95% CI Upper", "95% CI Lower", "P-value")) %>%
+           kable_styling(full_width=F, position="center")
+
+```
+
+<br> 
+
+####(d)
+
+```{r quad_mod_2, include=FALSE}
+
+quadintmod_2 <- glm(case ~ yobf + xray + xraynum:yob_2 + xraynum:yob2,
+                  data=oxford, family=binomial)
+
+```
+
+
+```{r, include=FALSE}
+
+est_1944 <- lincom(quadintmod_2, c("xrayxray + (-20)*xraynum:yob + 100*xraynum:yob2==0"))
+est_1948 <- lincom(quadintmod_2, c("xrayxray + (-16)*xraynum:yob + 36*xraynum:yob2==0"))
+est_1952 <- lincom(quadintmod_2, c("xrayxray + (-12)*xraynum:yob + 4*xraynum:yob2==0"))
+est_1956 <- lincom(quadintmod_2, c("xrayxray + (-8)*xraynum:yob + 4*xraynum:yob2 ==0"))
+est_1960 <- lincom(quadintmod_2, c("xrayxray + (-4)*xraynum:yob + 36*xraynum:yob2 ==0"))
+est_1964 <- lincom(quadintmod_2, c("xrayxray + xraynum:yob + 100*xraynum:yob2 ==0"))
+
+```
 
