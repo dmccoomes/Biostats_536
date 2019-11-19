@@ -2,7 +2,9 @@
 title: "Homework 7"
 author: "David Coomes"
 date: "11/17/2019"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -164,7 +166,7 @@ est_1964 <- lincom(quadintmod, c("xrayxray + (10)*xraynum:yob + 100*xraynum:yob2
 
 ```
 
-**Table 3:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth using a quadratic effect modification model.
+**Table 3:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth using a quadratic effect modification model (using -10 for 1944).
 
 ```{r reg_mod_3_output, echo=FALSE}
 
@@ -182,6 +184,9 @@ kable(table_2,
 
 ####(d)
 
+**Table 4:** Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth using a quadratic effect modification model (using -20 for 1944).
+
+
 ```{r quad_mod_2, include=FALSE}
 
 quadintmod_2 <- glm(case ~ yobf + xray + xraynum:yob_2 + xraynum:yob2,
@@ -192,12 +197,12 @@ quadintmod_2 <- glm(case ~ yobf + xray + xraynum:yob_2 + xraynum:yob2,
 
 ```{r, include=FALSE}
 
-est_1944 <- lincom(quadintmod_2, c("xrayxray + (-20)*xraynum:yob + 100*xraynum:yob2==0"))
-est_1948 <- lincom(quadintmod_2, c("xrayxray + (-16)*xraynum:yob + 36*xraynum:yob2==0"))
-est_1952 <- lincom(quadintmod_2, c("xrayxray + (-12)*xraynum:yob + 4*xraynum:yob2==0"))
-est_1956 <- lincom(quadintmod_2, c("xrayxray + (-8)*xraynum:yob + 4*xraynum:yob2 ==0"))
-est_1960 <- lincom(quadintmod_2, c("xrayxray + (-4)*xraynum:yob + 36*xraynum:yob2 ==0"))
-est_1964 <- lincom(quadintmod_2, c("xrayxray + xraynum:yob + 100*xraynum:yob2 ==0"))
+est_1944 <- lincom(quadintmod_2, c("xrayxray + (-20)*xraynum:yob_2 + 100*xraynum:yob2==0"))
+est_1948 <- lincom(quadintmod_2, c("xrayxray + (-16)*xraynum:yob_2 + 36*xraynum:yob2==0"))
+est_1952 <- lincom(quadintmod_2, c("xrayxray + (-12)*xraynum:yob_2 + 4*xraynum:yob2==0"))
+est_1956 <- lincom(quadintmod_2, c("xrayxray + (-8)*xraynum:yob_2 + 4*xraynum:yob2 ==0"))
+est_1960 <- lincom(quadintmod_2, c("xrayxray + (-4)*xraynum:yob_2 + 36*xraynum:yob2 ==0"))
+est_1964 <- lincom(quadintmod_2, c("xrayxray + xraynum:yob_2 + 100*xraynum:yob2 ==0"))
 
 ```
 
