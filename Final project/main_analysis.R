@@ -1,9 +1,11 @@
 library(data.table)
 library(tidyverse)
 library(UWbe536)
+
 setwd("C:/Users/arthur/Desktop/AU2019/Biost 536")
-data <- read_rds("Project536-2019.rds")
-#set up smoking status variable & BMI
+#data <- read_rds("Project536-2019.rds")
+data <- readRDS("Project536-2019.rds")
+set up smoking status variable & BMI
 data$BMI <- ((data$weight)^2) / data$height
 data$smkst <- ifelse(data$packyrs>0 & data$yrsquit ==0, 2, ifelse(data$packyrs>0&data$yrsquit>0,1,0))
 #blood test and blood pressure  indicator 
