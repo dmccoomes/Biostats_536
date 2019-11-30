@@ -1,12 +1,26 @@
+
+#install.packages("devtools", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+library(devtools)
+#install_github("bmckuw/UWbe536") 
+
 library(data.table)
 library(tidyverse)
 library(UWbe536)
 
-setwd("C:/Users/arthur/Desktop/AU2019/Biost 536")
+#setwd("C:/Users/arthur/Desktop/AU2019/Biost 536")
 #data <- read_rds("Project536-2019.rds")
-data <- readRDS("Project536-2019.rds")
-set up smoking status variable & BMI
-data$BMI <- ((data$weight)^2) / data$height
+
+link = "https://github.com/dmccoomes/Biostats_536/raw/master/Final%20project/Project536-2019.rds"
+data <- readRDS(url(link))
+
+#set up smoking status variable & BMI
+#data$BMI <- ((data$weight)^2) / data$height
+
+#Converting height to meters and weight to kilograms, then constructing BMI
+data$height_m <- data$height/100
+data$weight_kg <- data$weight*0.453592
+data$BMI <- data$weight_kg / (data$height_m)^2
+
 data$smkst <- ifelse(data$packyrs>0 & data$yrsquit ==0, 2, ifelse(data$packyrs>0&data$yrsquit>0,1,0))
 #blood test and blood pressure  indicator 
 data$abldl <- ifelse(data$ldl > 150, 1, 0)
@@ -17,7 +31,72 @@ data$abcrt <- ifelse(data$crt <0.7 | data$crt >1.3, 1, 0)
 data$abwbc <- ifelse(data$wbc <4.5 | data$wbc >11, 1, 0)
 data$abplt <- ifelse(data$plt <150 | data$plt >350, 1, 0)
 data$hbp <- ifelse(data$sbp > 120 & data$dbp >80, 1, 0) 
-data$badblood <-ifelse(as.numeric(apply(data[,25:30], 1, sum)) > 2, 1, 0)
+#data$badblood <-ifelse(as.numeric(apply(data[,25:30], 1, sum)) > 2, 1, 0)
+
+#DMC - Using column names in case we need to add some more variables
+data$badblood <- ifelse(as.numeric(apply(data[,c("abldl", "abglu", "abalb", "abfib", "abcrt", "abwbc", "abplt", "hbp")], 1, sum)) > 2, 1, 0)
+
+#Generating summary statistics
+summary(data$age[data$case==1])
+summary(data$age[data$case==0])
+t.test(age ~ case, data=data)
+
+data$age_65_74 <- ifelse(data$age > 64 & data$age<75, 1, 0)
+data$age_75_84 <- ifelse(data$age > 74 & data$age<85, 1, 0)
+data$age_85 <- ifelse(data$age > 84, 1, 0)
+
+summary(data$age_65_74[data$case==1])
+summary(data$age_75_84[data$case==1])
+summary(data$age_85[data$case==1])
+summary(data$age_65_74[data$case==0])
+summary(data$age_75_84[data$case==0])
+summary(data$age_85[data$case==0])
+
+summary(data$male[data$case==1])
+summary(data$male[data$case==0])
+t.test(male ~ case, data=data)
+
+summary(data$nonwhite[data$case==1])
+summary(data$nonwhite[data$case==0])
+
+data$educ_nohs <- ifelse(data$educ ==0, 1, 0)
+data$educ_hs <- ifelse(data$educ ==1, 1, 0)
+data$educ_coll <- ifelse(data$educ ==2, 1, 0)
+
+summary(data$educ_nohs[data$case==1])
+summary(data$educ_nohs[data$case==0])
+summary(data$educ_hs[data$case==1])
+summary(data$educ_hs[data$case==0])
+summary(data$educ_coll[data$case==1])
+summary(data$educ_coll[data$case==0])
+
+summary(data$gmalcoh[data$case==1])
+summary(data$gmalcoh[data$case==0])
+t.test(gmalcoh ~ case, data=data)
+
+data$smkr_curr <- ifelse(data$smkst ==2, 1, 0)
+data$smkr_form <- ifelse(data$smkst ==1, 1, 0)
+data$smkr_nev <- ifelse(data$smkst ==0, 1, 0)
+
+summary(data$smkr_curr[data$case==1])
+summary(data$smkr_curr[data$case==0])
+summary(data$smkr_form[data$case==1])
+summary(data$smkr_form[data$case==0])
+summary(data$smkr_nev[data$case==1])
+summary(data$smkr_nev[data$case==0])
+
+summary(data$packyrs[data$case==1])
+summary(data$packyrs[data$case==0])
+t.test(packyrs ~ case, data=data)
+
+summary(data$BMI[data$case==1])
+summary(data$BMI[data$case==0])
+t.test(BMI ~ case, data=data)
+
+summary(data$badblood[data$case==1])
+summary(data$badblood[data$case==0])
+t.test(badblood ~ case, data=data)
+
 # set up linear spline varibale 
 data <- data %>% 
   mutate(s1 = dsst,
