@@ -10,7 +10,11 @@ output:
 ```{r install_packages, echo=FALSE,warning=FALSE,message=FALSE}
 
 library(knitr)
+<<<<<<< HEAD
+#install.packages("devtools")
+=======
 install.packages("devtools")
+>>>>>>> 4e4b194bbf61d438d08cbe996ecf8d3d97ee878f
 library(devtools)
 install_github("bmckuw/UWbe536") 
 library(UWbe536) 
@@ -30,7 +34,10 @@ str(esoph)
 ```
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4e4b194bbf61d438d08cbe996ecf8d3d97ee878f
 ```{r shape_data, warning=FALSE,message=FALSE, include=FALSE}
 
 esoph$bin_alc <- as.numeric(esoph$alc) > 2

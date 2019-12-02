@@ -3,11 +3,8 @@ title: "Homework 7"
 author: "David Coomes"
 date: "11/17/2019"
 output:
-  pdf_document: default
-<<<<<<< HEAD
-=======
   word_document: default
->>>>>>> 9c298d15d96084cd77995c2253ce5a04fc81de46
+  pdf_document: default
   html_document: default
 ---
 

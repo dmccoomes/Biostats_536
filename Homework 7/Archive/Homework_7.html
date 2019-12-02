@@ -459,11 +459,12 @@ YOB:1964
 </div>
 <div id="ii" class="section level4">
 <h4>(ii)</h4>
-<p>The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables.</p>
+<p>The odds ratios are the same for both models except for the OR for those born in 1964. This model is not a reparamaterization - there is just one variable that is coded differently. Both models include all of the same variables. These models have a slightly different result because of the variable that is the baseline for the estimates.</p>
 <p><br></p>
 </div>
 <div id="c" class="section level4">
 <h4>(c)</h4>
+<p><strong>Table 3:</strong> Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth using a quadratic effect modification model (using -10 for 1944).</p>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -588,6 +589,151 @@ YOB:1964
 </tr>
 </tbody>
 </table>
+<p><br></p>
+</div>
+<div id="d" class="section level4">
+<h4>(d)</h4>
+<p><strong>Table 4:</strong> Odds ratios and 95% confidence intervals for the effect of x-ray exposure adjusting for year of birth using a quadratic effect modification model (using -20 for 1944).</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+95% CI Upper
+</th>
+<th style="text-align:right;">
+95% CI Lower
+</th>
+<th style="text-align:right;">
+P-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+YOB:1944
+</td>
+<td style="text-align:right;">
+4.59
+</td>
+<td style="text-align:right;">
+2.43
+</td>
+<td style="text-align:right;">
+8.65
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+YOB:1948
+</td>
+<td style="text-align:right;">
+2.51
+</td>
+<td style="text-align:right;">
+1.93
+</td>
+<td style="text-align:right;">
+3.27
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+YOB:1952
+</td>
+<td style="text-align:right;">
+1.70
+</td>
+<td style="text-align:right;">
+1.48
+</td>
+<td style="text-align:right;">
+1.96
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+YOB:1956
+</td>
+<td style="text-align:right;">
+1.43
+</td>
+<td style="text-align:right;">
+1.24
+</td>
+<td style="text-align:right;">
+1.64
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+YOB:1960
+</td>
+<td style="text-align:right;">
+1.48
+</td>
+<td style="text-align:right;">
+1.19
+</td>
+<td style="text-align:right;">
+1.84
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+YOB:1964
+</td>
+<td style="text-align:right;">
+1.81
+</td>
+<td style="text-align:right;">
+1.05
+</td>
+<td style="text-align:right;">
+3.12
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+</tr>
+</tbody>
+</table>
+<p>These two quadratic effect modification models are very similar - they are only different for the OR in the final year (YOB 1966). This is the same as the two models that adjusted for effect modification using a non-quadratic equation - the differences are because of the chosen reference year.</p>
+<p><br></p>
+</div>
+<div id="section" class="section level4">
+<h4>2</h4>
+<ol style="list-style-type: lower-alpha">
+<li>One way that the authors adjusted for confounders was in their study design. They limited the study to participants without diseases that could be related to alcohol and tobacco use, including diabetes and multiple cancers. As for adjusting using statistical methods, the authors are not very clear on the method used. They state their adjustment variables (in the results, not the methods) but not the way that they include them in the model. I would assume that they are all binary variables, mostly because some of the categories in Table IV have relatively few individuals (as low as 11), so this would not allow for a large number of confounders.</li>
+</ol>
+<p><br></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>I think that the presentation of the results was relatively clear, although there are a lot of them and I would have liked to have the main analysis emphasized a little more. It is also a little confusing that they changed their reference group from “Never drinkers” to “Current drinkers”. I think that this makes the interpretation of the results a little more difficult to compare accross their analyses.</li>
+</ol>
+<p><br></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>I don’t think that the authors can interpret as strong of a conclusion from this study as they did. For starters, there are a lot of confounding variables that are likely not accounted for in this study. It is very difficult to say that the cases and controls are equal except for the fact that the controls stopped drinking - there are too many differnet aspects that go along with drinking habits. Second, I wonder about the impact of mortality, especially for heavy drinkers, and what this may have done for the results of this study. What other diseases are associated with drinking and how would this impact the chances of someone dying before they get esophageal cancer. Finally, I wonder about the fact that such a large proportion of the study subjects were current drinkers and how this impacts the interpretation of the results.</li>
+</ol>
 </div>
 
 

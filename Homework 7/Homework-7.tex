@@ -1,0 +1,204 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Homework 7},
+            pdfauthor={David Coomes},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Homework 7}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{David Coomes}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{11/17/2019}
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\begin{document}
+\maketitle
+
+\paragraph{Question 1}\label{question-1}
+
+\paragraph{(a)}\label{a}
+
+\textbf{Table 1:} Odds ratios and 95\% confidence intervals for the
+effect of x-ray exposure adjusting for year of birth (using -10 for
+1944).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|r|r|r|r}
+\hline
+  & Estimate & 95\% CI Upper & 95\% CI Lower & P-value\\
+\hline
+YOB:1944 & 2.46 & 1.80 & 3.36 & 0.00\\
+\hline
+YOB:1948 & 2.11 & 1.71 & 2.60 & 0.00\\
+\hline
+YOB:1952 & 1.81 & 1.59 & 2.06 & 0.00\\
+\hline
+YOB:1956 & 1.55 & 1.38 & 1.75 & 0.00\\
+\hline
+YOB:1960 & 1.33 & 1.10 & 1.62 & 0.00\\
+\hline
+YOB:1964 & 1.14 & 0.85 & 1.53 & 0.38\\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{(b)}\label{b}
+
+\paragraph{(i)}\label{i}
+
+\textbf{Table 2:} Odds ratios and 95\% confidence intervals for the
+effect of x-ray exposure adjusting for year of birth (using -20 for
+1944).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|r|r|r|r}
+\hline
+  & Estimate & 95\% CI Upper & 95\% CI Lower & P-value\\
+\hline
+YOB:1944 & 2.46 & 1.80 & 3.36 & 0.00\\
+\hline
+YOB:1948 & 2.11 & 1.71 & 2.60 & 0.00\\
+\hline
+YOB:1952 & 1.81 & 1.59 & 2.06 & 0.00\\
+\hline
+YOB:1956 & 1.55 & 1.38 & 1.75 & 0.00\\
+\hline
+YOB:1960 & 1.33 & 1.10 & 1.62 & 0.00\\
+\hline
+YOB:1964 & 1.10 & 0.80 & 1.51 & 0.56\\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{(ii)}\label{ii}
+
+The odds ratios are the same for both models except for the OR for those
+born in 1964. This model is not a reparamaterization - there is just one
+variable that is coded differently. Both models include all of the same
+variables.
+
+\paragraph{(c)}\label{c}
+
+\textbf{Table 3:} Odds ratios and 95\% confidence intervals for the
+effect of x-ray exposure adjusting for year of birth using a quadratic
+effect modification model (using -10 for 1944).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|r|r|r|r}
+\hline
+  & Estimate & 95\% CI Upper & 95\% CI Lower & P-value\\
+\hline
+YOB:1944 & 4.59 & 2.43 & 8.65 & 0.00\\
+\hline
+YOB:1948 & 2.51 & 1.93 & 3.27 & 0.00\\
+\hline
+YOB:1952 & 1.70 & 1.48 & 1.96 & 0.00\\
+\hline
+YOB:1956 & 1.43 & 1.24 & 1.64 & 0.00\\
+\hline
+YOB:1960 & 1.48 & 1.19 & 1.84 & 0.00\\
+\hline
+YOB:1964 & 1.90 & 1.11 & 3.22 & 0.02\\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{(d)}\label{d}
+
+\textbf{Table 4:} Odds ratios and 95\% confidence intervals for the
+effect of x-ray exposure adjusting for year of birth using a quadratic
+effect modification model (using -20 for 1944).
+
+
+\end{document}

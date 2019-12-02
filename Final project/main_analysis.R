@@ -1,0 +1,204 @@
+
+#install.packages("devtools", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+library(devtools)
+#install_github("bmckuw/UWbe536") 
+library(ggplot2)
+library(lmtest)
+library(beeswarm)
+
+library(data.table)
+library(tidyverse)
+library(UWbe536)
+
+#setwd("C:/Users/arthur/Desktop/AU2019/Biost 536")
+#data <- read_rds("Project536-2019.rds")
+
+link = "https://github.com/dmccoomes/Biostats_536/raw/master/Final%20project/Project536-2019.rds"
+data <- readRDS(url(link))
+
+#set up smoking status variable & BMI
+#data$BMI <- ((data$weight)^2) / data$height
+
+#Converting height to meters and weight to kilograms, then constructing BMI
+data$height_m <- data$height/100
+data$weight_kg <- data$weight*0.453592
+data$BMI <- data$weight_kg / (data$height_m)^2
+
+data$smkst <- ifelse(data$packyrs>0 & data$yrsquit ==0, 2, ifelse(data$packyrs>0&data$yrsquit>0,1,0))
+#blood test and blood pressure  indicator 
+data$abldl <- ifelse(data$ldl > 150, 1, 0)
+data$abglu <- ifelse(data$glu <70 | data$glu >105, 1, 0)
+data$abalb <- ifelse(data$alb <2.4 | data$alb > 5.4, 1, 0)
+data$abfib <- ifelse(data$fib <150 | data$fib >350, 1, 0)
+data$abcrt <- ifelse(data$crt <0.7 | data$crt >1.3, 1, 0)
+data$abwbc <- ifelse(data$wbc <4.5 | data$wbc >11, 1, 0)
+data$abplt <- ifelse(data$plt <150 | data$plt >350, 1, 0)
+data$hbp <- ifelse(data$sbp > 120 & data$dbp >80, 1, 0) 
+#data$badblood <-ifelse(as.numeric(apply(data[,25:30], 1, sum)) > 2, 1, 0)
+
+#DMC - Using column names in case we need to add some more variables
+data$badblood <- ifelse(as.numeric(apply(data[,c("abldl", "abglu", "abalb", "abfib", "abcrt", "abwbc", "abplt", "hbp")], 1, sum)) > 2, 1, 0)
+
+#Generating summary statistics
+summary(data$age[data$case==1])
+summary(data$age[data$case==0])
+t.test(age ~ case, data=data)
+
+data$age_65_74 <- ifelse(data$age > 64 & data$age<75, 1, 0)
+data$age_75_84 <- ifelse(data$age > 74 & data$age<85, 1, 0)
+data$age_85 <- ifelse(data$age > 84, 1, 0)
+
+summary(data$age_65_74[data$case==1])
+summary(data$age_75_84[data$case==1])
+summary(data$age_85[data$case==1])
+summary(data$age_65_74[data$case==0])
+summary(data$age_75_84[data$case==0])
+summary(data$age_85[data$case==0])
+
+summary(data$male[data$case==1])
+summary(data$male[data$case==0])
+t.test(male ~ case, data=data)
+
+summary(data$nonwhite[data$case==1])
+summary(data$nonwhite[data$case==0])
+
+data$educ_nohs <- ifelse(data$educ ==0, 1, 0)
+data$educ_hs <- ifelse(data$educ ==1, 1, 0)
+data$educ_coll <- ifelse(data$educ ==2, 1, 0)
+
+summary(data$educ_nohs[data$case==1])
+summary(data$educ_nohs[data$case==0])
+summary(data$educ_hs[data$case==1])
+summary(data$educ_hs[data$case==0])
+summary(data$educ_coll[data$case==1])
+summary(data$educ_coll[data$case==0])
+
+summary(data$gmalcoh[data$case==1])
+summary(data$gmalcoh[data$case==0])
+t.test(gmalcoh ~ case, data=data)
+
+data$smkr_curr <- ifelse(data$smkst ==2, 1, 0)
+data$smkr_form <- ifelse(data$smkst ==1, 1, 0)
+data$smkr_nev <- ifelse(data$smkst ==0, 1, 0)
+
+summary(data$smkr_curr[data$case==1])
+summary(data$smkr_curr[data$case==0])
+summary(data$smkr_form[data$case==1])
+summary(data$smkr_form[data$case==0])
+summary(data$smkr_nev[data$case==1])
+summary(data$smkr_nev[data$case==0])
+
+summary(data$packyrs[data$case==1])
+summary(data$packyrs[data$case==0])
+t.test(packyrs ~ case, data=data)
+
+summary(data$BMI[data$case==1])
+summary(data$BMI[data$case==0])
+t.test(BMI ~ case, data=data)
+
+summary(data$badblood[data$case==1])
+summary(data$badblood[data$case==0])
+t.test(badblood ~ case, data=data)
+
+# set up linear spline varibale 
+data <- data %>% 
+  mutate(s1 = dsst,
+         s2 = (dsst-20)*(dsst>20),
+         s3 = (dsst-40)*(dsst>40),
+         s4 = (dsst-60)*(dsst>60),
+         s5 = (dsst-80)*(dsst>80),
+         dsst2 = dsst^2,
+         dsst3 = dsst*dsst2,
+         s12 = s1*s1,
+         s22 = s2*s2,
+         s32 = s3*s3,
+         s42 = s4*s4,
+         s52 = s5*s5)
+crmd.l <- glm(case~dsst,data=data, family= binomial)
+crmd.lnq <- glm(case~dsst + dsst2,data =data, family = binomial)
+
+#DMC adding in cubic and quadratic spline
+crmd.lncu <- glm(case~dsst + dsst2 + dsst3, data=data, family = binomial)
+crmd.spq <- glm(case~s1 + s12 + s22 + s32 + s42 + s52, data=data, family=binomial)
+
+crmd.sp <- glm(case~s1+s2+s3+s4+s5, data =data, family = binomial)
+lincom(crmd.l)
+lincom(crmd.lnq,c("40*dsst+4000*dsst2==0"))
+lincom(crmd.sp,c("40*s1+40*s2+30*s3+10*s4==0"))
+lincom(crmd.lncu,c())
+
+#Setting up models with confounder adjustment
+cfmd.l <- glm(case~dsst+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood,
+              data=data,family = binomial)
+cfmd.lnq <- glm(case~dsst+dsst2+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood,
+                data=data,family=binomial)
+cfmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood,
+               data=data,family=binomial)
+lincom(cfmd.l)
+lincom(cfmd.lnq,c("40*dsst+4000*dsst2==0"))
+lincom(cfmd.sp,c("40*s1+40*s2+30*s3+10*s4==0"))
+emmd.l <- glm(case~dsst+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood+dsst:age+dsst:gmalcoh,
+              data=data,family = binomial)
+emmd.lnq <- glm(case~dsst+dsst2+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood+dsst:age+dsst:gmalcoh
+                +dsst2:age+dsst2:gmalcoh,
+                data=data,family=binomial)
+emmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood
+               +s1:age+s1:gmalcoh+s2:age+s2:gmalcoh
+               +s3:age+s3:gmalcoh+s4:age+s4:gmalcoh
+               +s5:age+s5:gmalcoh,
+               data=data, family = binomial)
+summary(emmd.sp)
+lincom(emmd.l,c("dsst+dsst:age+dsst:gmalcoh==0"))
+lincom(emmd.lnq,c("40*dsst+40*dsst:age+40*dsst:gmalcoh+4000*dsst2+4000*dsst2:age+4000*dsst2:gmalcoh==0"))
+
+
+#Compare models
+
+#Comparing base models linear, quadratic, and spline
+anova(crmd.l, crmd.sp, test="LRT")     #linear and spline
+#p-value = 0.2711 : no difference
+anova(crmd.l, crmd.lnq, test="LRT")     #linear and quadratic
+#p-value = 0.1176 : no difference
+anova(crmd.sp, crmd.lnq, test="LRT")     #spline and quadratic
+#p-value = 0.4382 : no difference
+
+#Comparing full models linear, quadratic, and spline
+anova(cfmd.l, cfmd.sp, test="LRT")      #linear and spline
+#p-value = 0.113 : no difference
+anova(cfmd.l, cfmd.lnq, test="LRT")     #linear and quadratic
+#p-value = 0.05309 : no difference, but real close
+anova(cfmd.sp, cfmd.lnq, test="LRT")    #spline and quadratic
+#p-value = 0.2922 : no difference
+
+#Comparing full models with interactions linear, spline, and quadratic
+anova(emmd.l, emmd.sp, test="LRT")      #linear and spline
+#p-value = 0.09784 :  no difference
+
+anova(emmd.l, emmd.lnq, test="LRT")     #linear and quadratic
+#p-value = 0.2687 : no difference
+#Can also do a Wald's test since they're nested
+waldtest(emmd.l, emmd.lnq, test="Chisq")
+#p-value = 0.2571 : no difference
+
+anova(emmd.sp, emmd.lnq, test="LRT")    #spline and quadratic
+#p-value = 0.09819 : no difference
+
+
+
+#Deletion diagnostics
+
+
+
+
+
+#plots
+with(data, plot(age, gmalcoh))
+
+qplot(age, gmalcoh, data=data, color=case)
+
+qplot(gmalcoh, packyrs, data=data, color=educ)
+
+beeswarm(data$gmalcoh, vertical=FALSE, method="square")
+
+with(data, plot(crmd.l, age))
+with(data, plot(crmd.lnq, age))
