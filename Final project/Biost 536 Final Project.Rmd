@@ -230,10 +230,17 @@ emmd.lnq <- glm(case~dsst+dsst2+age+male+nonwhite+factor(educ)+BMI+packyrs+facto
                 +dsst2:age+dsst2:gmalcoh,
                 data=data,family=binomial)
 emmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood
-               +s1:age+s1:gmalcoh+s2:age+s2:gmalcoh
-               +s3:age+s3:gmalcoh+s4:age+s4:gmalcoh
-               +s5:age+s5:gmalcoh,
+               +s1:age_bin++s2:age_bin
+               +s3:age_bin+s4:age_bin
+               +s5:age_bin,
                data=data, family = binomial)
+
+emmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood
+               +s1:alc_bin++s2:alc_bin
+               +s3:alc_bin+s4:alc_bin
+               +s5:alc_bin,
+               data=data, family = binomial)
+
 
 summary(emmd.sp)
 lincom(emmd.l,c("dsst+dsst:age_bin+4*dsst:alc_bin==0"))
@@ -276,6 +283,15 @@ waldtest(emmd.l, emmd.lnq, test="Chisq")
 
 anova(emmd.sp, emmd.lnq, test="LRT")    #spline and quadratic
 #p-value = 0.09819 : no difference
+
+
+#testing linear spline with effect modification
+anova(cfmd.sp, emmd.sp, test="LRT")
+
+anova(cfmd.lnq, emmd.lnq, test="LRT")
+
+
+
 
 ```
 
