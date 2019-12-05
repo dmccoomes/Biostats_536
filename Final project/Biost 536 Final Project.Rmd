@@ -58,6 +58,19 @@ data$hbp <- ifelse(data$sbp > 120 & data$dbp >80, 1, 0)
 #DMC - Using column names in case we need to add some more variables
 data$badblood <- ifelse(as.numeric(apply(data[,c("abldl", "abglu", "abalb", "abfib", "abcrt", "abwbc", "abplt", "hbp")], 1, sum)) > 2, 1, 0)
 
+#for sensitivity analysis
+data$badblood_2 <- ifelse(as.numeric(apply(data[,c("abldl", "abglu", "abalb", "abfib", "abcrt", "abwbc", "abplt", "hbp")], 1, sum)) > 3, 1, 0)
+
+#Generating alcohol and age bins
+data$age_bin[data$age > 64 & data$age<75] <- 1
+data$age_bin[data$age > 74 & data$age<85] <- 2
+data$age_bin[data$age > 84] <- 3
+
+data$alc_bin[data$gmalcoh == 0] <- 1
+data$alc_bin[data$gmalcoh >0 & data$gmalcoh <= 100] <- 2
+data$alc_bin[data$gmalcoh >100 & data$gmalcoh <= 200] <- 3
+data$alc_bin[data$gmalcoh >200] <- 4
+
 ```
 
 
@@ -152,15 +165,15 @@ data <- data %>%
 
 null.mod <- glm(case~1, data=data, family=binomial)
 crmd.l <- glm(case~dsst,data=data, family= binomial)              #linear model
-crmd.lnq <- glm(case~dsst + dsst2,data =data, family = binomial)     #quadratic model
-crmd.sp <- glm(case~s1+s2+s3+s4+s5, data =data, family = binomial)      #spline model
+crmd.lnq <- glm(case~dsst + dsst2 + nonwhite,data =data, family = binomial)     #quadratic model
+crmd.sp <- glm(case~s1+s2+s3+s4+s5+nonwhite, data =data, family = binomial)      #spline model
 
 #DMC adding in cubic and quadratic spline
 crmd.lncu <- glm(case~dsst + dsst2 + dsst3, data=data, family = binomial)    #cubic model
 crmd.spq <- glm(case~s1 + s12 + s22 + s32 + s42 + s52, data=data, family=binomial)      #spline quadratic model
 
 lincom(crmd.l)
-lincom(crmd.lnq,c("dsst+dsst2==0"))
+lincom(crmd.lnq,c("dsst+61*dsst2==0"))
 #lincom(crmd.sp,c("s1==0"))    #I think this is not correct
 lincom(crmd.sp,c("s1==0","s1+s2==0","s1+s2+s3==0","s1+s2+s3+s4==0","s1+s2+s3+s4+s5==0"))
 lincom(crmd.lncu,c("dsst+dsst2+dsst3==0"))
@@ -188,17 +201,30 @@ cfmd.spq <- glm(case~s1 + s12 + s22 + s32 + s42 + s52 +age+male+nonwhite+factor(
 
 
 lincom(cfmd.l, c("dsst==0"))
-lincom(cfmd.lnq,c("dsst+dsst2==0"))
+lincom(cfmd.lnq,c("dsst+61*dsst2==0"))
 lincom(cfmd.sp,c("s1==0", "s1+s2==0", "s1+s2+s3==0", "s1+s2+s3+s4==0", "s1+s2+s3+s4+s5==0"))
 lincom(cfmd.lncu,c("dsst==0"))
 lincom(cfmd.spq,c("s1==0","s1+s22==0","s1+s22+s32==0","s1+s22+s32+s42==0","s1+s22+s32+s42+s52==0"))
+
+
+#Sensitivity analysis
+cfmd.lnq_sens <- glm(case~dsst+dsst2+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood_2+mmmse,
+                data=data,family=binomial)
+
+lincom(cfmd.lnq_sens,c("dsst+61*dsst2==0"))
+
+cfmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood_2+mmmse,
+               data=data,family=binomial)
+
+lincom(cfmd.sp,c("s1==0", "s1+s2==0", "s1+s2+s3==0", "s1+s2+s3+s4==0", "s1+s2+s3+s4+s5==0"))
+
 
 ```
 
 
 ```{r effect_mod}
 
-emmd.l <- glm(case~dsst+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood+dsst:age+dsst:gmalcoh,
+emmd.l <- glm(case~dsst+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood+dsst:age_bin+dsst:alc_bin,
               data=data,family = binomial)
 emmd.lnq <- glm(case~dsst+dsst2+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood+dsst:age+dsst:gmalcoh
                 +dsst2:age+dsst2:gmalcoh,
@@ -210,7 +236,7 @@ emmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+fa
                data=data, family = binomial)
 
 summary(emmd.sp)
-lincom(emmd.l,c("dsst+dsst:age+dsst:gmalcoh==0"))
+lincom(emmd.l,c("dsst+dsst:age_bin+4*dsst:alc_bin==0"))
 lincom(emmd.lnq,c("40*dsst+40*dsst:age+40*dsst:gmalcoh+4000*dsst2+4000*dsst2:age+4000*dsst2:gmalcoh==0"))
 
 ```
