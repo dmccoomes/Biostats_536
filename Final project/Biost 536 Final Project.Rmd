@@ -58,6 +58,19 @@ data$hbp <- ifelse(data$sbp > 120 & data$dbp >80, 1, 0)
 #DMC - Using column names in case we need to add some more variables
 data$badblood <- ifelse(as.numeric(apply(data[,c("abldl", "abglu", "abalb", "abfib", "abcrt", "abwbc", "abplt", "hbp")], 1, sum)) > 2, 1, 0)
 
+#DMC - changing alcohol consumption and age into bins for EM
+#data$alc_bin <- cut(data$gmalcoh, c(-1, 0, 100, 200, 1000))
+#data$age_bin <- cut(data$age, c(65, 75, 85, 100))
+
+data$alc_bin[data$gmalcoh==0] <- 0
+data$alc_bin[data$gmalcoh>0 & data$gmalcoh<=100] <- 1
+data$alc_bin[data$gmalcoh>100 & data$gmalcoh<=200] <-2 
+data$alc_bin[data$gmalcoh>200] <- 3
+
+data$age_bin[data$age>64 & data$age<75] <- 0
+data$age_bin[data$age>74 & data$age<85] <- 1
+data$age_bin[data$age>84] <- 2
+
 ```
 
 
@@ -125,6 +138,10 @@ summary(data$badblood[data$case==1])
 summary(data$badblood[data$case==0])
 t.test(badblood ~ case, data=data)
 
+summary(data$dsst[data$case==1])
+summary(data$dsst[data$case==0])
+t.test(dsst ~ case, data=data)
+
 ```
 
 
@@ -190,7 +207,7 @@ cfmd.spq <- glm(case~s1 + s12 + s22 + s32 + s42 + s52 +age+male+nonwhite+factor(
 lincom(cfmd.l, c("dsst==0"))
 lincom(cfmd.lnq,c("dsst+dsst2==0"))
 lincom(cfmd.sp,c("s1==0", "s1+s2==0", "s1+s2+s3==0", "s1+s2+s3+s4==0", "s1+s2+s3+s4+s5==0"))
-lincom(cfmd.lncu,c("dsst==0"))
+lincom(cfmd.lncu,c("dsst+dsst2+dsst3==0"))
 lincom(cfmd.spq,c("s1==0","s1+s22==0","s1+s22+s32==0","s1+s22+s32+s42==0","s1+s22+s32+s42+s52==0"))
 
 ```
@@ -211,9 +228,31 @@ emmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+fa
 
 summary(emmd.sp)
 lincom(emmd.l,c("dsst+dsst:age+dsst:gmalcoh==0"))
-lincom(emmd.lnq,c("40*dsst+40*dsst:age+40*dsst:gmalcoh+4000*dsst2+4000*dsst2:age+4000*dsst2:gmalcoh==0"))
+lincom(emmd.lnq,c("40*dsst+40*dsst:age+40*dsst:gmalcoh+4000*dsst2+4000*dsst2:age+4000*dsst2:gmalcoh==0"))   #I don't think we need these numbers as multipliers. What are they representing?
 
 ```
+
+
+#DMC - I think that we should try to add the effect modifiers in bins for age and alcohol consumption because they are hard to interpret if we include them as continuous vars
+```{r effect_mod_2}
+
+emmd.l <- glm(case~dsst+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood+dsst:age_bin+dsst:alc_bin,
+              data=data,family = binomial)
+emmd.lnq <- glm(case~dsst+dsst2+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood+dsst:age+dsst:gmalcoh
+                +dsst2:age+dsst2:gmalcoh,
+                data=data,family=binomial)
+emmd.sp <- glm(case~s1+s2+s3+s4+s5+age+male+nonwhite+factor(educ)+BMI+packyrs+factor(smkst)+gmalcoh+badblood
+               +s1:age+s1:gmalcoh+s2:age+s2:gmalcoh
+               +s3:age+s3:gmalcoh+s4:age+s4:gmalcoh
+               +s5:age+s5:gmalcoh,
+               data=data, family = binomial)
+
+summary(emmd.sp)
+lincom(emmd.l, c("dsst==0"))
+lincom(emmd.l,c("dsst+dsst:age_bin+dsst:alc_bin==0"))
+lincom(emmd.lnq,c("40*dsst+40*dsst:age+40*dsst:gmalcoh+4000*dsst2+4000*dsst2:age+4000*dsst2:gmalcoh==0"))
+```
+
 
 
 ```{r model_compare}
@@ -250,6 +289,7 @@ waldtest(emmd.l, emmd.lnq, test="Chisq")
 
 anova(emmd.sp, emmd.lnq, test="LRT")    #spline and quadratic
 #p-value = 0.09819 : no difference
+
 
 ```
 

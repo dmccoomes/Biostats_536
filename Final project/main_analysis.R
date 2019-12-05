@@ -100,6 +100,9 @@ summary(data$badblood[data$case==1])
 summary(data$badblood[data$case==0])
 t.test(badblood ~ case, data=data)
 
+summary(data$dsst[data$case==1])
+summary(data$dsst[data$case==0])
+
 # set up linear spline varibale 
 data <- data %>% 
   mutate(s1 = dsst,
